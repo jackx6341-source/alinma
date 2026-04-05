@@ -8,6 +8,7 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
+  // يجلب اسم الملف من الرابط (مثلاً ar.json)
   const path = req.url.split('/').pop().split('?')[0];
 
   const data = {
