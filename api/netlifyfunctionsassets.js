@@ -1,20 +1,24 @@
-// netlify/functions/assets.js
-exports.handler = async (event, context) => {
-    const path = event.path.split('/').pop(); // يجلب اسم الملف من الرابط (ar.json مثلاً)
+// api/assets.js
+export default function handler(req, res) {
+  // إعدادات CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
-    const data = {
-        "ar.json": { "welcome": "مرحباً بكم في الإنماء", "search": "بحث" }, // ضع محتوى ملف ar الأصلي هنا
-        "en.json": { "welcome": "Welcome to Alinma", "search": "Search" },
-        "categories": { "items": ["cat1", "cat2"] }
-    };
+  const path = req.url.split('/').pop().split('?')[0];
 
-    if (data[path]) {
-        return {
-            statusCode: 200,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data[path])
-        };
-    }
+  const data = {
+    "ar.json": { "welcome": "مرحباً بكم في الإنماء", "search": "بحث" },
+    "en.json": { "welcome": "Welcome to Alinma", "search": "Search" },
+    "categories": { "items": ["cat1", "cat2"] }
+  };
 
-    return { statusCode: 404, body: "Not Found" };
-};
+  if (data[path]) {
+    res.status(200).json(data[path]);
+  } else {
+    res.status(404).send({ error: "Not Found" });
+  }
+}
