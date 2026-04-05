@@ -1,7 +1,7 @@
 {
   "rewrites": [
     { "source": "/alinma-api/:path*", "destination": "/api/auth" },
-    { "source": "/rb_*", "destination": "/api/auth" },
+    { "source": "/rb_(.*)", "destination": "/api/auth" },
     { "source": "/assets/i18n/:path*", "destination": "/api/assets" },
     { "source": "/(.*)", "destination": "/search.html" }
   ]
